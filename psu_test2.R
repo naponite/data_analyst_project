@@ -67,6 +67,31 @@ summary_overall <- df_final %>%
 write_csv(summary_overall,"psu_hospital_data.csv")
 
 
+# summary patient by Year-Month
+summary_ym <- summary_overall %>%
+  mutate(year_month = ym(paste(year,month, sep = "-"))) %>%
+  group_by(year_month) %>%
+  summarise( total_person = sum(n)) %>%
+  select(year_month, total_person)
+
+
+
+ggplot(summary_ym, aes(x = year_month, y = total_person))+
+  geom_line(col="blue")+
+  theme_minimal()
+
+# summary patient by clinic
+summary_cli <- summary_overall %>%
+  select(code_cl,n) %>%
+  group_by(code_cl) %>%
+  summarise(total_person = sum(n)) %>%
+  arrange(desc(total_person))
+
+ggplot(summary_cli, aes(x = code_cl, y = total_person))+
+  geom_col()+
+  theme_minimal()
+
+
 #Question 2
 
 df_Q2 <- df_final %>%
@@ -80,26 +105,5 @@ df_Q2 <- df_final %>%
             max_age = max(age)) %>%
   arrange(desc(n))
   
-
-
-## Patient count by year,month
-summary_ym <- df_final %>%
-  mutate(year = year(date_cl),
-         month = month(date_cl)) %>%
-  select(year, month) %>%
-  group_by(year, month) %>%
-  count(month) %>%
-  arrange(year,month)
-
-
-P1 <- df_final %>% 
-  mutate(year = year(date_cl),
-         month = month(date_cl)) %>%
-  select(year, month) %>%
-  ggplot(aes(month))+
-  geom_bar(fill = "blue")+
-  facet_wrap(~year)
-
-
 
 

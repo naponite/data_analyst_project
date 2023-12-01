@@ -118,6 +118,21 @@ head(summary_overall)
 ```
 
 
+
+-จำนวนผู้ป่วย โดยสรุปเป็นราย ปี-เดือน
+```{r}
+# summary patient by Year-Month
+summary_ym <- summary_overall %>%
+  mutate(year_month = ym(paste(year,month, sep = "-"))) %>%
+  group_by(year_month) %>%
+  summarise( total_person = sum(n)) %>%
+  select(year_month, total_person) 
+
+ggplot(summary_ym, aes(x = year_month, y = total_person))+
+  geom_line(col="blue")+
+  theme_minimal()
+```
+
 ## Question 2
 การตรวจวินิจฉัยโรคเบาหวานส่วนใหญ่ผู้ป่วยจะได้รับการวินิจฉัยว่าเป็นเบาหวานครั้งแรกในคลินิกใด และช่วงอายุเฉลี่ยเท่าไร
 ```{r}
@@ -132,9 +147,15 @@ df_Q2 <- df_final %>%
             max_age = max(age)) %>%
   arrange(desc(n))
 
-head(df_Q2)
 
 ```
 
+#### Ans: 
+การตรวจวินิจฉัยโรคเบาหวานส่วนใหญ่ผู้ป่วยจะได้รับการวินิจฉัยว่าเป็นเบาหวานครั้งแรกในคลินิค "อายุรกรรม" 
+ที่อายุเฉลี่ย 60 ปี
+```{r}
+
+head(df_Q2)
+```
 
 
