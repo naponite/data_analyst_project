@@ -55,8 +55,8 @@ df_final <- df %>%
 summary_overall <- df_final %>%
   mutate(year = year(date_cl),
          month = month(date_cl)) %>%
-  select(year, month, code_cl, sex, age) %>%
-  group_by(year, month, code_cl, sex) %>%
+  select(year, month, code_cl,u_name, sex, age) %>%
+  group_by(year, month, code_cl,u_name, sex) %>%
   summarise(
     min_age = min(age),
     max_age = max(age),
@@ -75,21 +75,32 @@ summary_ym <- summary_overall %>%
   select(year_month, total_person)
 
 
-
 ggplot(summary_ym, aes(x = year_month, y = total_person))+
   geom_line(col="blue")+
-  theme_minimal()
+  theme_minimal()+
+  labs(title = "Patient count by Month between 2021-2022",
+       x = "Month-Year",
+       y = "Total(person)",
+       )
 
 # summary patient by clinic
 summary_cli <- summary_overall %>%
-  select(code_cl,n) %>%
-  group_by(code_cl) %>%
+  select(code_cl,u_name,n) %>%
+  group_by(code_cl,u_name) %>%
   summarise(total_person = sum(n)) %>%
-  arrange(desc(total_person))
+  arrange(desc(total_person)) %>%
+  mutate(clinic_code = factor(code_cl, levels = unique(code_cl)))
+  
 
-ggplot(summary_cli, aes(x = code_cl, y = total_person))+
+ggplot(summary_cli, 
+       aes(y = reorder(code_cl,total_person,decreasing = FALSE),
+           x = total_person))+
   geom_col()+
-  theme_minimal()
+  theme_minimal()+
+  labs(title = "Patient count by clinic",
+       x = "Clinic code",
+       y = "Total (person)",
+       caption = "O13 = อายุรกรรม")
 
 
 #Question 2
