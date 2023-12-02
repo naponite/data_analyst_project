@@ -5,9 +5,9 @@ date: "2023-11-30"
 output: html_document
 ---
 
-## 1. Data Overview
+## **1. Data Overview**
 
-```{r}
+```{r, message=FALSE}
 library(dplyr)
 library(feather)
 library(ggplot2)
@@ -21,7 +21,7 @@ df_diag <- read_feather("diag.feather", columns = NULL)
 ```
 
 
-#### Table Diag (df_diag)
+#### **Table Diag** (df_diag)
 
 ```{r}
 #skim(df_diag)
@@ -29,7 +29,7 @@ glimpse(df_diag) %>% head()
 ```
 
 
-#### Table Demographic (df_demo_raw)
+#### **Table Demographic** (df_demo_raw)
 
 ```{r}
 #skim(df_demo_raw)
@@ -37,7 +37,7 @@ glimpse(df_demo_raw) %>% head()
 ```
 
 
-#### Table Clinic (df_cli)
+#### **Table Clinic** (df_cli)
 
 ```{r}
 #skim(df_cli)
@@ -45,15 +45,15 @@ glimpse(df_cli) %>% head()
 ```
 
 
-## 2. Data preparation
+## **2. Data preparation**
 
-#### Data cleansing
+#### **Data cleansing**
 ```{r}
 df_demo <- df_demo_raw %>%  
   filter(bdate != "0000-00-00" & bdate != "NULL") 
 ```
 
-#### Data preparation
+#### **Data preparation**
 กำหนดเกณฑ์การคัดกรองกลุ่มผู้ป่วยที่ต้องการติดตาม คือ
 -	ได้รับการวินิจฉัยโรคเบาหวาน (ICD-10 : E11 - E14)
 -	อายุระหว่าง 15 - 75 ปี 
@@ -61,7 +61,7 @@ df_demo <- df_demo_raw %>%
 -	เข้ารับบริการในช่วงปีงบประมาณ 2565 (1 ต.ค. 2564 - 30 ก.ย. 2565)
 -	ไม่เคยมีประวัติวินิจฉัยโรคความดันโลหิตมาก่อน (ICD-10 : I10)
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 df <- df_diag %>%
   left_join(df_demo, by = "id") %>%
   left_join(df_cli, by = c("code_cl" = "c_unit")) %>%
@@ -88,17 +88,17 @@ df_final <- df %>%
 ```
 
 
-#### Overview Final Data (df_final)
+#### **Overview Final Data** (df_final)
 
 ```{r}
 head(df_final)
 
 ```
 
-## Question 1
+## **Question 1**
 จำนวนผู้ป่วย โดยสรุปเป็นราย ปี - เดือน คลินิก เพศ และช่วงอายุของผู้ป่วยที่เข้ารับบริการเพื่อเป็นแนวทางแก้ไขปัญหาความหนาแน่นของการเข้ารับบริการในแต่ละคลินิก และช่วงเวลา
 
-```{r}
+```{r, message=FALSE}
 summary_overall <- df_final %>%
   mutate(year = year(date_cl),
          month = month(date_cl)) %>%
@@ -119,7 +119,7 @@ head(summary_overall)
 
 
 
--จำนวนผู้ป่วย โดยสรุปเป็นราย ปี-เดือน
+- **จำนวนผู้ป่วย โดยสรุปเป็นราย ปี-เดือน**
 ```{r}
 # summary patient by Year-Month
 summary_ym <- summary_overall %>%
@@ -133,9 +133,9 @@ ggplot(summary_ym, aes(x = year_month, y = total_person))+
   theme_minimal()
 ```
 
-## Question 2
+## **Question 2**
 การตรวจวินิจฉัยโรคเบาหวานส่วนใหญ่ผู้ป่วยจะได้รับการวินิจฉัยว่าเป็นเบาหวานครั้งแรกในคลินิกใด และช่วงอายุเฉลี่ยเท่าไร
-```{r}
+```{r, message=FALSE}
 df_Q2 <- df_final %>%
   group_by(id) %>%
   mutate(first_iden_date = min(date_cl)) %>%
@@ -150,7 +150,7 @@ df_Q2 <- df_final %>%
 
 ```
 
-#### Ans: 
+#### **Ans: **
 การตรวจวินิจฉัยโรคเบาหวานส่วนใหญ่ผู้ป่วยจะได้รับการวินิจฉัยว่าเป็นเบาหวานครั้งแรกในคลินิค "อายุรกรรม" 
 ที่อายุเฉลี่ย 60 ปี
 ```{r}
