@@ -1,0 +1,626 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Sleep health and lifestyle},
+  pdfauthor={Ms.Orapit},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Sleep health and lifestyle}
+\author{Ms.Orapit}
+\date{2023-12-16}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsection{\texorpdfstring{\textbf{Introduction}}{Introduction}}\label{introduction}}
+
+Sleep is like a super recharge for your body and brain, It's a natural
+state where your physical activity slows down and repair your body,
+refresh your brain during sleep to get ready for the next day.
+
+This analysis will present on sleep disorder insight and recommendation
+from the dataset through data exploration, analysis and hypothesis
+testing.
+
+\hypertarget{data-selection}{%
+\subsubsection{\texorpdfstring{\textbf{1. Data
+Selection}}{1. Data Selection}}\label{data-selection}}
+
+Source: kaggle
+\url{https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset}
+
+Size: 3 kB
+
+Dataset information:
+
+\begin{itemize}
+\tightlist
+\item
+  Rows: 374
+\item
+  Columns: 13
+\item
+  Datatype: Character and Numeric
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(skimr)}
+\FunctionTok{library}\NormalTok{(stringr)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\FunctionTok{library}\NormalTok{(ggpubr)}
+\FunctionTok{library}\NormalTok{(patchwork)}
+\FunctionTok{library}\NormalTok{(descr)}
+
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"Sleep\_health\_and\_lifestyle\_dataset.csv"}\NormalTok{)}
+
+\FunctionTok{glimpse}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 374
+## Columns: 13
+## $ `Person ID`               <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1~
+## $ Gender                    <chr> "Male", "Male", "Male", "Male", "Male", "Mal~
+## $ Age                       <dbl> 27, 28, 28, 28, 28, 28, 29, 29, 29, 29, 29, ~
+## $ Occupation                <chr> "Software Engineer", "Doctor", "Doctor", "Sa~
+## $ `Sleep Duration`          <dbl> 6.1, 6.2, 6.2, 5.9, 5.9, 5.9, 6.3, 7.8, 7.8,~
+## $ `Quality of Sleep`        <dbl> 6, 6, 6, 4, 4, 4, 6, 7, 7, 7, 6, 7, 6, 6, 6,~
+## $ `Physical Activity Level` <dbl> 42, 60, 60, 30, 30, 30, 40, 75, 75, 75, 30, ~
+## $ `Stress Level`            <dbl> 6, 8, 8, 8, 8, 8, 7, 6, 6, 6, 8, 6, 8, 8, 8,~
+## $ `BMI Category`            <chr> "Overweight", "Normal", "Normal", "Obese", "~
+## $ `Blood Pressure`          <chr> "126/83", "125/80", "125/80", "140/90", "140~
+## $ `Heart Rate`              <dbl> 77, 75, 75, 85, 85, 85, 82, 70, 70, 70, 70, ~
+## $ `Daily Steps`             <dbl> 4200, 10000, 10000, 3000, 3000, 3000, 3500, ~
+## $ `Sleep Disorder`          <chr> "None", "None", "None", "Sleep Apnea", "Slee~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{skim}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Data summary}\tabularnewline
+\toprule\noalign{}
+\endfirsthead
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Name & df \\
+Number of rows & 374 \\
+Number of columns & 13 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Column type frequency: & \\
+character & 5 \\
+numeric & 8 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Group variables & None \\
+\end{longtable}
+
+\textbf{Variable type: character}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.2055}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1370}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1918}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0548}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0548}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0822}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1233}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.1507}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+min
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+max
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+empty
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_unique
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+whitespace
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Gender & 0 & 1 & 4 & 6 & 0 & 2 & 0 \\
+Occupation & 0 & 1 & 5 & 20 & 0 & 11 & 0 \\
+BMI Category & 0 & 1 & 5 & 13 & 0 & 4 & 0 \\
+Blood Pressure & 0 & 1 & 6 & 6 & 0 & 25 & 0 \\
+Sleep Disorder & 0 & 1 & 4 & 11 & 0 & 3 & 0 \\
+\end{longtable}
+
+\textbf{Variable type: numeric}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.2222}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0926}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1296}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0648}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0648}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0741}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0741}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0556}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sd
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p0
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p25
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p75
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p100
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+hist
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Person ID & 0 & 1 & 187.50 & 108.11 & 1.0 & 94.25 & 187.5 & 280.75 &
+374.0 & ▇▇▇▇▇ \\
+Age & 0 & 1 & 42.18 & 8.67 & 27.0 & 35.25 & 43.0 & 50.00 & 59.0 &
+▆▆▇▃▅ \\
+Sleep Duration & 0 & 1 & 7.13 & 0.80 & 5.8 & 6.40 & 7.2 & 7.80 & 8.5 &
+▇▆▇▇▆ \\
+Quality of Sleep & 0 & 1 & 7.31 & 1.20 & 4.0 & 6.00 & 7.0 & 8.00 & 9.0 &
+▁▇▆▇▅ \\
+Physical Activity Level & 0 & 1 & 59.17 & 20.83 & 30.0 & 45.00 & 60.0 &
+75.00 & 90.0 & ▇▇▇▇▇ \\
+Stress Level & 0 & 1 & 5.39 & 1.77 & 3.0 & 4.00 & 5.0 & 7.00 & 8.0 &
+▇▃▂▃▃ \\
+Heart Rate & 0 & 1 & 70.17 & 4.14 & 65.0 & 68.00 & 70.0 & 72.00 & 86.0 &
+▇▇▂▁▁ \\
+Daily Steps & 0 & 1 & 6816.84 & 1617.92 & 3000.0 & 5600.00 & 7000.0 &
+8000.00 & 10000.0 & ▁▅▇▆▂ \\
+\end{longtable}
+
+\hypertarget{data-preprocessing}{%
+\subsubsection{\texorpdfstring{\textbf{2. Data
+Preprocessing}}{2. Data Preprocessing}}\label{data-preprocessing}}
+
+\begin{itemize}
+\tightlist
+\item
+  No missing value and empty to be cleaned
+\item
+  Separate blood pressure into 2 columns, systolic and diastolic
+\item
+  Change ``Normal Weight'' to ``Normal''
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Data Preprocessing }
+
+\CommentTok{\# Separate blood pressure columns \textgreater{} systolic , diastolic}
+
+\NormalTok{df\_prep }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{bp\_systolic =} \FunctionTok{str\_extract}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Blood Pressure}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{"([1{-}9].+)/"}\NormalTok{, }\AttributeTok{group =} \ConstantTok{TRUE}\NormalTok{),}
+         \AttributeTok{bp\_diastolic =} \FunctionTok{str\_extract}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{Blood Pressure}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{"/([1{-}9].+)"}\NormalTok{, }\AttributeTok{group =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{bp\_systolic =} \FunctionTok{as.numeric}\NormalTok{(bp\_systolic),}
+         \AttributeTok{bp\_diastolic =} \FunctionTok{as.numeric}\NormalTok{(bp\_diastolic)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{BMI Category}\StringTok{\textasciigrave{}} \OtherTok{=} \FunctionTok{if\_else}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{BMI Category}\StringTok{\textasciigrave{}} \SpecialCharTok{==} \StringTok{"Normal Weight"}\NormalTok{,}\StringTok{"Normal"}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{BMI Category}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\StringTok{\textasciigrave{}}\AttributeTok{Blood Pressure}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exploratory-data-analysis}{%
+\subsubsection{\texorpdfstring{\textbf{3. Exploratory Data
+Analysis}}{3. Exploratory Data Analysis}}\label{exploratory-data-analysis}}
+
+\hypertarget{summary-statistics-of-dataset}{%
+\subparagraph{3.1 Summary Statistics of
+dataset}\label{summary-statistics-of-dataset}}
+
+\begin{verbatim}
+##    Person ID         Gender               Age         Occupation       
+##  Min.   :  1.00   Length:374         Min.   :27.00   Length:374        
+##  1st Qu.: 94.25   Class :character   1st Qu.:35.25   Class :character  
+##  Median :187.50   Mode  :character   Median :43.00   Mode  :character  
+##  Mean   :187.50                      Mean   :42.18                     
+##  3rd Qu.:280.75                      3rd Qu.:50.00                     
+##  Max.   :374.00                      Max.   :59.00                     
+##  Sleep Duration  Quality of Sleep Physical Activity Level  Stress Level  
+##  Min.   :5.800   Min.   :4.000    Min.   :30.00           Min.   :3.000  
+##  1st Qu.:6.400   1st Qu.:6.000    1st Qu.:45.00           1st Qu.:4.000  
+##  Median :7.200   Median :7.000    Median :60.00           Median :5.000  
+##  Mean   :7.132   Mean   :7.313    Mean   :59.17           Mean   :5.385  
+##  3rd Qu.:7.800   3rd Qu.:8.000    3rd Qu.:75.00           3rd Qu.:7.000  
+##  Max.   :8.500   Max.   :9.000    Max.   :90.00           Max.   :8.000  
+##  BMI Category         Heart Rate     Daily Steps    Sleep Disorder    
+##  Length:374         Min.   :65.00   Min.   : 3000   Length:374        
+##  Class :character   1st Qu.:68.00   1st Qu.: 5600   Class :character  
+##  Mode  :character   Median :70.00   Median : 7000   Mode  :character  
+##                     Mean   :70.17   Mean   : 6817                     
+##                     3rd Qu.:72.00   3rd Qu.: 8000                     
+##                     Max.   :86.00   Max.   :10000                     
+##   bp_systolic     bp_diastolic  
+##  Min.   :115.0   Min.   :75.00  
+##  1st Qu.:125.0   1st Qu.:80.00  
+##  Median :130.0   Median :85.00  
+##  Mean   :128.6   Mean   :84.65  
+##  3rd Qu.:135.0   3rd Qu.:90.00  
+##  Max.   :142.0   Max.   :95.00
+\end{verbatim}
+
+\hypertarget{overview-of-quality-of-sleep-stress-level-and-physical-activity-level-separated-by-sleep-disorder-categories}{%
+\subparagraph{3.2 Overview of Quality of sleep, Stress level and
+Physical activity level separated by sleep disorder
+categories}\label{overview-of-quality-of-sleep-stress-level-and-physical-activity-level-separated-by-sleep-disorder-categories}}
+
+\includegraphics{fastwork_sleep_health_and_lifestyle_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{quote}
+Insomnia disorder peoples have sleep quality lower than non-sleep
+disorder peoples
+\end{quote}
+
+\hypertarget{relationship-between-sleep-quality-and}{%
+\subparagraph{3.3 Relationship between Sleep quality
+and}\label{relationship-between-sleep-quality-and}}
+
+\begin{itemize}
+\tightlist
+\item
+  Sleep duration
+\item
+  Physical activity
+\item
+  Stress level
+\end{itemize}
+
+\includegraphics{fastwork_sleep_health_and_lifestyle_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{fastwork_sleep_health_and_lifestyle_files/figure-latex/unnamed-chunk-5-2.pdf}
+\includegraphics{fastwork_sleep_health_and_lifestyle_files/figure-latex/unnamed-chunk-5-3.pdf}
+
+\begin{quote}
+Sleep duration is significantly relate to Sleep quality (p \textless=
+0.05) and strong correlation with R = 0.88
+
+Physical activity level is significantly relate to Sleep quality (p
+\textless= 0.05) but weak correlation with R = 0.19
+
+Stress level is significantly relate to Sleep quality (p \textless=
+0.05) and strong correlation with R = -0.9
+\end{quote}
+
+\hypertarget{sleep-quality-separate-by-bmi}{%
+\subparagraph{3.4 Sleep quality separate by
+BMI}\label{sleep-quality-separate-by-bmi}}
+
+\includegraphics{fastwork_sleep_health_and_lifestyle_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{quote}
+Peoples with higher BMI are trend to have lower sleep quality
+\end{quote}
+
+\hypertarget{hypothesis-testing}{%
+\subsubsection{\texorpdfstring{\textbf{4. Hypothesis
+Testing}}{4. Hypothesis Testing}}\label{hypothesis-testing}}
+
+\hypertarget{relationship-between-bmi-and-sleep-disorder}{%
+\subparagraph{4.1 Relationship between BMI and Sleep
+disorder}\label{relationship-between-bmi-and-sleep-disorder}}
+
+\begin{itemize}
+\tightlist
+\item
+  Ho: BMI category has \textbf{NO} relationship with sleep disorder
+\item
+  Ha: BMI category has relationship with sleep disorder
+\end{itemize}
+
+\begin{verbatim}
+##    Cell Contents 
+## |-------------------------|
+## |                   Count | 
+## |          Column Percent | 
+## |-------------------------|
+## 
+## ==============================================================
+##                         df_h1$`Sleep Disorder`
+## df_h1$`BMI Category`    Insomnia    None   Sleep Apnea   Total
+## --------------------------------------------------------------
+## Normal                        9     200             7     216 
+##                            11.7%   91.3%          9.0%        
+## --------------------------------------------------------------
+## Obese                         4       0             6      10 
+##                             5.2%    0.0%          7.7%        
+## --------------------------------------------------------------
+## Overweight                   64      19            65     148 
+##                            83.1%    8.7%         83.3%        
+## --------------------------------------------------------------
+## Total                        77     219            78     374 
+##                            20.6%   58.6%         20.9%        
+## ==============================================================
+## 
+## Statistics for All Table Factors
+## 
+## Pearson's Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 = 245.6653      d.f. = 4      p <2e-16 
+## 
+##         Minimum expected frequency: 2.058824 
+## Cells with Expected Frequency < 5: 2 of 9 (22.22222%)
+\end{verbatim}
+
+\begin{quote}
+\begin{itemize}
+\item
+  Reject Ho, BMI category has relationship with sleep disorder with
+  p-value \textless{} 0.05
+\item
+  Almost overweight peoples have Sleep disorder either insomnia or sleep
+  apnea
+\end{itemize}
+\end{quote}
+
+\hypertarget{relationship-between-bmi-and-daily-steps}{%
+\subparagraph{4.2 Relationship between BMI and Daily
+steps}\label{relationship-between-bmi-and-daily-steps}}
+
+\begin{itemize}
+\tightlist
+\item
+  Ho: BMI category has \textbf{NO} relationship with daily steps
+\item
+  Ha: BMI category has relationship with daily steps
+\end{itemize}
+
+\begin{verbatim}
+##    Cell Contents 
+## |-------------------------|
+## |                   Count | 
+## |          Column Percent | 
+## |-------------------------|
+## 
+## =========================================================
+##                      df_h2$`BMI Category`
+## df_h2$daily_steps    Normal    Obese   Overweight   Total
+## ---------------------------------------------------------
+## 0-4000                   2       10            1      13 
+##                        0.9%   100.0%         0.7%        
+## ---------------------------------------------------------
+## 4001-6000               67        0           83     150 
+##                       31.0%     0.0%        56.1%        
+## ---------------------------------------------------------
+## 6001-8000              143        0           32     175 
+##                       66.2%     0.0%        21.6%        
+## ---------------------------------------------------------
+## 8001-10000               4        0           32      36 
+##                        1.9%     0.0%        21.6%        
+## ---------------------------------------------------------
+## Total                  216       10          148     374 
+##                       57.8%     2.7%        39.6%        
+## =========================================================
+## 
+## Statistics for All Table Factors
+## 
+## Pearson's Chi-squared test 
+## ------------------------------------------------------------
+## Chi^2 = 372.0571      d.f. = 6      p <2e-16 
+## 
+##         Minimum expected frequency: 0.3475936 
+## Cells with Expected Frequency < 5: 4 of 12 (33.33333%)
+\end{verbatim}
+
+\begin{quote}
+\begin{itemize}
+\item
+  Reject Ho, BMI category has relationship with daily steps with p-value
+  \textless{} 0.05
+\item
+  Almost overweight peoples have lesser daily steps than normal weight
+  peoples
+\end{itemize}
+\end{quote}
+
+\hypertarget{insights-and-recommendations}{%
+\subsubsection{\texorpdfstring{\textbf{5. Insights and
+Recommendations}}{5. Insights and Recommendations}}\label{insights-and-recommendations}}
+
+\hypertarget{insights}{%
+\subparagraph{5.1 Insights}\label{insights}}
+
+Based on Data Exploration and Hypothesis Testing from 374 persons in
+dataset, it's said that BMI has relationship with sleep disorder and
+\textbf{obese and overweight people are trend to found sleep disorder
+(either insomnia or sleep apnea)}
+
+\textbf{Manager, Salesperson, Scientist, Nurse and Teacher} are top 5
+occupation with highest overweight BMI category, meaning highest risk to
+get sleep disorder. (follow below table)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2333}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0889}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1444}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1333}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1889}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2111}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Occupation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+persons
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+total\_normal
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+total\_obese
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+total\_overweight
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+percent\_overweight
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Manager & 1 & 0 & 0 & 1 & 100 \\
+Salesperson & 32 & 0 & 0 & 32 & 100 \\
+Scientist & 4 & 0 & 0 & 4 & 100 \\
+Nurse & 73 & 7 & 0 & 66 & 90 \\
+Teacher & 40 & 6 & 1 & 33 & 82 \\
+Software Engineer & 4 & 2 & 1 & 1 & 25 \\
+Accountant & 37 & 31 & 0 & 6 & 16 \\
+Engineer & 63 & 60 & 0 & 3 & 5 \\
+Lawyer & 47 & 43 & 2 & 2 & 4 \\
+Doctor & 71 & 67 & 4 & 0 & 0 \\
+Sales Representative & 2 & 0 & 2 & 0 & 0 \\
+\end{longtable}
+
+\hypertarget{recomendations}{%
+\subparagraph{5.2 Recomendations}\label{recomendations}}
+
+From hypothesis test in item 4.2, it's said that BMI has relationship
+with Daily step and \textbf{obese and overweight about 59.5\% have daily
+step less than 6000 (66.2\% of normal BMI peoples have daily step
+between 6001-8000)}
+
+\begin{quote}
+\textbf{The recommendation} is the obese and overweight peoples are
+encouraged to increse daily step by more walking or exercise to reduce
+risk to have good sleep health.
+\end{quote}
+
+\end{document}

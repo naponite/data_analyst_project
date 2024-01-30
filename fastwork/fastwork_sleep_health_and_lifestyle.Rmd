@@ -1,0 +1,284 @@
+---
+title: "Sleep health and lifestyle"
+author: "Ms. Orapit Pataraanant 6423765046"
+date: "2023-12-16"
+output:
+  html_document: default
+  pdf_document: default
+---
+## **Introduction**
+Sleep is like a super recharge for your body and brain, It's a natural state where your physical activity slows down and repair your body, refresh your brain during sleep to get ready for the next day.
+
+This analysis will present on sleep disorder insight and recommendation from the dataset through data exploration, analysis and hypothesis testing.
+
+
+
+### **1. Data Selection**
+
+Source: kaggle 
+https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset
+
+Size: 3 kB
+
+Dataset information:
+
+- Rows: 374
+- Columns: 13
+- Datatype: Character and Numeric
+
+```{r, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(skimr)
+library(stringr)
+library(knitr)
+library(ggpubr)
+library(patchwork)
+library(descr)
+
+df <- read_csv("Sleep_health_and_lifestyle_dataset.csv")
+
+glimpse(df)
+skim(df)
+
+```
+
+### **2. Data Preprocessing**
+
+- No missing value and empty to be cleaned
+- Separate blood pressure into 2 columns, systolic and diastolic
+- Change “Normal Weight” to “Normal” 
+
+```{r}
+# 2. Data Preprocessing 
+
+# Separate blood pressure columns > systolic , diastolic
+
+df_prep <- df %>%
+  mutate(bp_systolic = str_extract(`Blood Pressure`,"([1-9].+)/", group = TRUE),
+         bp_diastolic = str_extract(`Blood Pressure`,"/([1-9].+)", group = TRUE)) %>%
+  mutate(bp_systolic = as.numeric(bp_systolic),
+         bp_diastolic = as.numeric(bp_diastolic)) %>%
+  mutate(`BMI Category` = if_else(`BMI Category` == "Normal Weight","Normal",`BMI Category`)) %>%
+  select(-`Blood Pressure`)
+
+```
+
+
+### **3. Exploratory Data Analysis**
+
+##### 3.1 Summary Statistics of dataset
+
+```{r, echo=FALSE}
+summary(df_prep)
+
+```
+
+
+##### 3.2 Overview of Quality of sleep, Stress level and Physical activity level separated by sleep disorder categories
+```{r, echo=FALSE}
+# Q5: Sleep disorder vs 
+# - sleep quality
+
+
+df_p3 <- df_prep %>%
+  select(`Quality of Sleep`, `Stress Level`, `Physical Activity Level`, `Sleep Disorder`)
+
+p8 <- df_p3 %>%
+  ggplot(aes(x = `Sleep Disorder`, y = `Quality of Sleep`))+
+  geom_boxplot()+
+  theme_minimal()
+
+
+# - stress
+p9 <- df_p3 %>%
+  ggplot(aes(x = `Sleep Disorder`, y = `Stress Level`))+
+  geom_boxplot()+
+  theme_minimal()
+
+
+
+# - physical activity
+
+p10 <- df_p3 %>%
+  ggplot(aes(x = `Sleep Disorder`, y = `Physical Activity Level`))+
+  geom_boxplot()+
+  theme_minimal()
+
+p8+p9+p10
+
+
+```
+
+> Insomnia disorder peoples have sleep quality lower than non-sleep disorder peoples
+
+
+##### 3.3 Relationship between Sleep quality and
+- Sleep duration
+- Physical activity
+- Stress level
+
+
+```{r, message=FALSE, echo=FALSE}
+# Q3: relation between 
+# -sleep duration and sleep quality (scatter)
+
+p3 <- df_prep %>%
+  select(`Sleep Duration`, `Quality of Sleep`) %>%
+  ggplot(aes(x = `Sleep Duration`, y = `Quality of Sleep`))+
+  geom_point()+
+  geom_smooth(method = "lm",
+              col = "red")+
+  stat_cor(method = "pearson", label.x = 5, label.y = 10,
+           col = "blue")+
+  theme_minimal()
+
+
+
+# - sleep quality vs physical activity (scatter)
+
+p4 <- df_prep %>%
+  select(`Physical Activity Level`, `Quality of Sleep`) %>%
+  ggplot(aes(x = `Physical Activity Level`, y = `Quality of Sleep`))+
+  geom_point()+
+  geom_smooth(method = "lm",
+              col = "red")+
+  stat_cor(method = "pearson",
+           col = "blue")+
+  theme_minimal()
+
+
+# - sleep quality vs stress level
+p5 <- df_prep %>%
+  select(`Stress Level`, `Quality of Sleep`) %>%
+  ggplot(aes(x = `Stress Level`, y = `Quality of Sleep`))+
+  geom_point()+
+  geom_smooth(method = "lm",
+              col = "red")+
+  stat_cor(method = "pearson",
+           col = "blue")+
+  theme_minimal()
+
+p3
+p4
+p5
+
+
+```
+
+> Sleep duration is significantly relate to Sleep quality (p <= 0.05) and strong correlation with R = 0.88
+>
+> Physical activity level is significantly relate to Sleep quality (p <= 0.05) but weak correlation with R = 0.19
+>
+> Stress level is significantly relate to Sleep quality (p <= 0.05) and strong correlation with R = -0.9
+
+
+##### 3.4 Sleep quality separate by BMI
+
+```{r, echo=FALSE}
+# Sleep quality by BMI category
+
+p11 <- df_prep %>%
+  select(`Quality of Sleep`, `BMI Category`) %>%
+  ggplot(aes(x = `BMI Category`, y = `Quality of Sleep`))+
+  geom_boxplot()+
+  theme_minimal()
+
+p11
+```
+
+> Peoples with higher BMI are trend to have lower sleep quality
+
+
+### **4. Hypothesis Testing**
+
+##### 4.1 Relationship between BMI and Sleep disorder
+- Ho: BMI category has **NO** relationship with sleep disorder
+- Ha: BMI category has relationship with sleep disorder
+```{r, warning=FALSE, echo=FALSE}
+#- Ho: BMI category has NO relationship with sleep disorder
+#- Ha: BMI category has relationship with sleep disorder
+
+
+df_h1 <- df_prep %>%
+    select(`Person ID` ,`BMI Category`,`Sleep Disorder`) 
+
+
+crosstab(df_h1$`BMI Category`,df_h1$`Sleep Disorder`,
+         prop.c = TRUE,
+         chisq = TRUE,
+         plot = FALSE)
+
+
+```
+
+>- Reject Ho, BMI category has relationship with sleep disorder with p-value < 0.05
+>
+>- Almost overweight peoples have Sleep disorder either insomnia or sleep apnea
+
+
+
+##### 4.2 Relationship between BMI and Daily steps
+- Ho: BMI category has **NO** relationship with daily steps
+- Ha: BMI category has relationship with daily steps
+```{r, warning=FALSE, echo=FALSE}
+#- Ho: BMI category has NO relationship with daily steps
+#- Ha: BMI category has relationship with daily steps
+
+df_h2 <- df_prep %>%
+  select(`Person ID` ,`BMI Category`,`Daily Steps`) %>%
+  mutate(daily_steps = if_else(`Daily Steps` <= 4000, "0-4000",
+                        if_else(between(`Daily Steps`,4001,6000),"4001-6000",
+                        if_else(between(`Daily Steps`,6001,8000),"6001-8000",
+                        if_else(between(`Daily Steps`,8001,10000),"8001-10000","other")))))
+
+
+crosstab(df_h2$daily_steps,df_h2$`BMI Category`,
+         prop.c = TRUE,
+         chisq = TRUE,
+         plot = FALSE)
+
+```
+
+>- Reject Ho, BMI category has relationship with daily steps with p-value < 0.05
+>
+>- Almost overweight peoples have lesser daily steps than normal weight peoples
+
+
+### **5. Insights and Recommendations**
+##### 5.1 Insights
+
+Based on Data Exploration and Hypothesis Testing from 374 persons in dataset, it's said that BMI has relationship with sleep disorder and **obese and overweight people are trend to found sleep disorder (either insomnia or sleep apnea)**
+
+
+**Manager, Salesperson, Scientist, Nurse and Teacher** are top 5 occupation with highest overweight BMI category, meaning highest risk to get sleep disorder. (follow below table)
+
+
+```{r, echo=FALSE}
+df_i1 <- df_prep %>%
+  select(`Person ID`, Occupation, `BMI Category`) %>%
+  mutate(normal = if_else(df_prep$`BMI Category` == "Normal",1,0),
+         obese = if_else(df_prep$`BMI Category` == "Obese",1,0),
+         overweight = if_else(df_prep$`BMI Category` == "Overweight",1,0)) %>%
+  group_by(Occupation) %>%
+  summarise(persons = n(),
+            total_normal = sum(normal),
+            total_obese = sum(obese),
+            total_overweight = sum(overweight)) %>%
+  mutate(percent_overweight = round(total_overweight / persons *100)) %>%
+  arrange(desc(percent_overweight))
+
+kable(df_i1)
+```
+
+
+##### 5.2 Recomendations
+
+From hypothesis test in item 4.2, it's said that BMI has relationship with Daily step and **obese and overweight about 59.5% have daily step less than 6000 (66.2% of normal BMI peoples have daily step between 6001-8000)**
+
+> **The recommendation** is the obese and overweight peoples are encouraged to increse daily step by more walking or exercise to reduce risk to have good sleep health.
+
+
+
+
+
